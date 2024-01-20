@@ -26,7 +26,7 @@ export class BookController {
     return this.bookService.updateBook(id, updateBookData);
   }
 
-  @Delete('id')
+  @Delete(':id')
   deleteBookById(@Param('id') id: string) {
     return this.bookService.deleteBook(id);
   }
