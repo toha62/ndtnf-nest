@@ -1,48 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel, InjectConnection } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
+import { Book, BookDocument } from './schemas/book.schema';
 import { BookDto } from './dto/book.dto';
 
 @Injectable()
 export class BookService {
-  private readonly books: BookDto[] = [];
+  constructor(
+    @InjectModel(Book.name) private BookModel: Model<BookDocument>,
+    @InjectConnection() private connection: Connection,
+  ) {}
 
-  createBook(book: BookDto) {
-    this.books.push(book);
+  createBook(data: BookDto): Promise<BookDocument> {
+    const book = new this.BookModel(data);
+
+    return book.save();
   }
 
-  getBook(id: string): BookDto | null {
-    const index = this.books.findIndex((item) => item.id === id);
-
-    if (index === -1) {
-      return null;
-    }
-    return this.books[index];
+  getBook(id: string): Promise<BookDocument> {
+    return this.BookModel.findById(id).exec();
   }
 
-  getBooks(): BookDto[] {
-    return this.books;
+  getBooks(): Promise<BookDocument[]> {
+    return this.BookModel.find().exec();
   }
 
-  updateBook(id: string, updatedData: BookDto): BookDto | null {
-    const index = this.books.findIndex((item) => item.id === id);
-
-    if (index === -1) {
-      return null;
-    }
-
-    this.books[index] = updatedData;
-
-    return this.books[index];
+  updateBook(id: string, updatedData: BookDto): Promise<BookDocument[]> {
+    return this.BookModel.findOneAndUpdate({ _id: id }, updatedData);
   }
 
-  deleteBook(id: string): boolean {
-    const index = this.books.findIndex((item) => item.id === id);
-
-    if (index === -1) {
-      return false;
-    }
-
-    this.books.splice(index, 1);
-
-    return true;
+  deleteBook(id: string): Promise<BookDocument[]> {
+    return this.BookModel.findByIdAndDelete(id);
   }
 }

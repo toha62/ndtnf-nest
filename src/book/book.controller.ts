@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Body,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { BookDocument } from './schemas/book.schema';
 import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
 
@@ -7,21 +16,21 @@ export class BookController {
   constructor(private bookService: BookService) {}
 
   @Get()
-  getAllBooks() {
+  getAllBooks(): Promise<BookDocument[]> {
     return this.bookService.getBooks();
   }
 
   @Get(':id')
-  getBookById(@Param('id') id: string) {
+  getBookById(@Param('id') id: string): Promise<BookDocument> {
     return this.bookService.getBook(id);
   }
 
   @Post()
-  createBook(@Body() createBookData: BookDto) {
+  createBook(@Body() createBookData: BookDto): Promise<BookDocument> {
     return this.bookService.createBook(createBookData);
   }
 
-  @Post(':id')
+  @Put(':id')
   updateBookById(@Param('id') id: string, @Body() updateBookData: BookDto) {
     return this.bookService.updateBook(id, updateBookData);
   }
