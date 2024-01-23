@@ -1,0 +1,21 @@
+services:
+  mongo_db:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+
+  library:
+    image: node:19.8
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 80:3000
+    environment:
+      - PORT=3000
+      - MONGO_CONNECTION=mongodb://root:example@mongo_db:27017
+    command: npm run start:dev
+    depends_on:
+      - mongo_db
