@@ -14,6 +14,7 @@ import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
 import { ExceptionInterceptor } from './book.excpt.interceptor';
 import { BookBodyValidationPipe } from './book.body.validation.pipe';
+import { BookValidationPipe } from './book.validation.pipe';
 
 @UseInterceptors(ExceptionInterceptor)
 @Controller('books')
@@ -30,7 +31,7 @@ export class BookController {
     return this.bookService.getBook(id);
   }
 
-  @UsePipes(BookBodyValidationPipe)
+  @UsePipes(BookValidationPipe)
   @Post()
   createBook(@Body() createBookData: BookDto): Promise<BookDocument> {
     return this.bookService.createBook(createBookData);
