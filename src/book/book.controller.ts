@@ -1,5 +1,6 @@
 import {
   Controller,
+  UseInterceptors,
   Get,
   Post,
   Put,
@@ -10,7 +11,9 @@ import {
 import { BookDocument } from './schemas/book.schema';
 import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
+import { ExceptionInterceptor } from './book.excpt.interceptor';
 
+@UseInterceptors(ExceptionInterceptor)
 @Controller('books')
 export class BookController {
   constructor(private bookService: BookService) {}
