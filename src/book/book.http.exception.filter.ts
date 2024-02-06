@@ -6,7 +6,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-// import { Request, Response } from 'express';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -30,15 +29,5 @@ export class HttpExceptionFilter implements ExceptionFilter {
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
-
-    // const response = ctx.getResponse<Response>();
-    // const request = ctx.getRequest<Request>();
-    // const status = exception.getStatus();
-    // console.log(exception);
-    // response.status(status).json({
-    //   statusCode: status,
-    //   timestamp: new Date().toISOString(),
-    //   path: request.url,
-    // });
   }
 }
