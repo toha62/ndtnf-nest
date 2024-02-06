@@ -8,6 +8,7 @@ import {
   Body,
   Param,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
 import { BookDocument } from './schemas/book.schema';
 import { BookDto } from './dto/book.dto';
@@ -15,17 +16,21 @@ import { BookService } from './book.service';
 import { ExceptionInterceptor } from './book.excpt.interceptor';
 import { BookBodyValidationPipe } from './book.body.validation.pipe';
 import { BookValidationPipe } from './book.validation.pipe';
+import { HttpExceptionFilter } from './book.http.exception.filter';
 
-@UseInterceptors(ExceptionInterceptor)
+// @UseInterceptors(ExceptionInterceptor)
+@UseFilters(HttpExceptionFilter)
 @Controller('books')
 export class BookController {
   constructor(private bookService: BookService) {}
 
+  @UseInterceptors(ExceptionInterceptor)
   @Get()
   getAllBooks(): Promise<BookDocument[]> {
     return this.bookService.getBooks();
   }
 
+  @UseInterceptors(ExceptionInterceptor)
   @Get(':id')
   getBookById(@Param('id') id: string): Promise<BookDocument> {
     return this.bookService.getBook(id);
