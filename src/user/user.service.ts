@@ -26,6 +26,15 @@ export class UserService {
     return null;
   }
 
+  async findById(id: string): Promise<any> {
+    const user = await this.UserModel.findById(id).select('-__v').exec();
+    console.log(`finding user by Id: ${id} is ${user}`);
+    if (user) {
+      return user;
+    }
+    return null;
+  }
+
   getAllUsers(): Promise<UserDocument[]> {
     return this.UserModel.find().select('-__v').exec();
   }

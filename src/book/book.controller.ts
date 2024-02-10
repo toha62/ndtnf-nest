@@ -8,14 +8,17 @@ import {
   Param,
   Delete,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { BookDocument } from './schemas/book.schema';
 import { BookDto } from './dto/book.dto';
 import { BookService } from './book.service';
 import { ExceptionInterceptor } from './book.excpt.interceptor';
 import { HttpExceptionFilter } from './book.http.exception.filter';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 
 // @UseInterceptors(ExceptionInterceptor)
+@UseGuards(JwtAuthGuard)
 @UseFilters(HttpExceptionFilter)
 @Controller('books')
 export class BookController {

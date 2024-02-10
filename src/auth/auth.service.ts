@@ -22,6 +22,15 @@ export class AuthService {
     return null;
   }
 
+  async validateUserById(id: string): Promise<any> {
+    const user = this.usersService.findById(id);
+
+    if (user) {
+      return user;
+    }
+    return null;
+  }
+
   createToken(payload: UserPayloadDto): string {
     return this.jwtService.sign(payload);
   }
