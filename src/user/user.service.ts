@@ -17,15 +17,16 @@ export class UserService {
     return user.save();
   }
 
-  findOne(id: string): Promise<any> {
-    const user = this.UserModel.findById(id).exec();
+  async findByEmail(email: string): Promise<any> {
+    const user = await this.UserModel.findOne({ email }).select('-__v').exec();
+    console.log(`finding user by email: ${email} is ${user}`);
     if (user) {
       return user;
     }
     return null;
   }
 
-  // createToken(payload: any) {
-  //   return this.jwtService.sign(payload);
-  // }
+  getAllUsers(): Promise<UserDocument[]> {
+    return this.UserModel.find().select('-__v').exec();
+  }
 }

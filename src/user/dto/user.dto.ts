@@ -17,3 +17,19 @@ export class UserDto {
   @IsDefined()
   password: string;
 }
+
+export class UserPayloadDto {
+  id: string;
+  email: string;
+  firstName: string;
+}
+
+export class AuthUserDto {
+  @IsEmail()
+  @IsDefined()
+  email: string;
+
+  @IsString()
+  @IsDefined()
+  password: string;
+}
